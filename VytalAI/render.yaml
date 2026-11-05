@@ -1,0 +1,27 @@
+# Render Blueprint — deploys the FastAPI backend. (Frontend goes on Vercel/Netlify; see DEPLOYMENT.md)
+services:
+  - type: web
+    name: vytalai-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: MONGO_URI
+        sync: false
+      - key: DB_NAME
+        value: vytalai
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: FRONTEND_ORIGINS
+        sync: false
+      - key: ELEVENLABS_WEBHOOK_SECRET
+        sync: false
+      - key: DOCTOR_SIGNUP_CODE
+        sync: false

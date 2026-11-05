@@ -1,0 +1,23 @@
+# Local full backend stack:  docker compose up --build
+# (run the frontend separately: cd frontend && npm install && npm run dev)
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes: [mongo_data:/data/db]
+    ports: ["27017:27017"]
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    depends_on: [mongo]
+    ports: ["8000:8000"]
+    environment:
+      ENVIRONMENT: development
+      MONGO_URI: mongodb://mongo:27017
+      DB_NAME: vytalai
+      JWT_SECRET_KEY: local-dev-secret-change-me-0123456789abcdef
+      FRONTEND_ORIGINS: http://localhost:5173,http://localhost:3000
+
+volumes:
+  mongo_data:
